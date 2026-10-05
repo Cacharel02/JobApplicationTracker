@@ -1,22 +1,21 @@
 package com.benjamin.JobApplicationTracker.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.*;
 
 @Entity
 @Table(name = "entreprise")
-@Data
-@AllArgsConstructor
+@Getter @Setter
+@AllArgsConstructor @NoArgsConstructor
 public class Entreprise {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "nom")
-    private String nom;
+    @Column(name = "name")
+    private String name;
 
-    @Column(name = "site_web")
-    private String siteWeb;
+    @Column(name = "website")
+    private String website;
 }
