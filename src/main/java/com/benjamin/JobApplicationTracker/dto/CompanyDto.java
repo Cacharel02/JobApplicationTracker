@@ -3,7 +3,7 @@ package com.benjamin.JobApplicationTracker.dto;
 import lombok.Data;
 
 @Data
-public class EntrepriseDto {
+public class CompanyDto {
     
     private String name;
     

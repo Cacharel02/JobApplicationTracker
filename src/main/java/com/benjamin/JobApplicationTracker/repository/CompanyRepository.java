@@ -1,13 +1,13 @@
 package com.benjamin.JobApplicationTracker.repository;
 
-import com.benjamin.JobApplicationTracker.entity.Entreprise;
+import com.benjamin.JobApplicationTracker.entity.Company;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
 @Repository
-public interface EntrepriseRepository extends JpaRepository<Entreprise, Long> {
+public interface CompanyRepository extends JpaRepository<Company, Long> {
 
-    Optional<Entreprise> findByName(String name);
+    Optional<Company> findByName(String name);
 }

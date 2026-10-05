@@ -1,8 +1,8 @@
 package com.benjamin.JobApplicationTracker.service;
 
-import com.benjamin.JobApplicationTracker.dto.EntrepriseDto;
+import com.benjamin.JobApplicationTracker.dto.CompanyDto;
 
 public interface IEntrepriseService {
 
-    void save(EntrepriseDto entrepriseDto);
+    void save(CompanyDto entrepriseDto);
 }
