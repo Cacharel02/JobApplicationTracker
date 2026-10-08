@@ -1,5 +1,5 @@
 -- V2__create_user_table.sql
-CREATE TABLE "user" (
+CREATE TABLE "users" (
     id BIGSERIAL PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL UNIQUE,
