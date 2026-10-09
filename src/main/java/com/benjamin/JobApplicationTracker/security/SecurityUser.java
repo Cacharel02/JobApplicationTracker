@@ -1,11 +1,11 @@
 package com.benjamin.JobApplicationTracker.security;
 
 import com.benjamin.JobApplicationTracker.entity.User;
+import com.benjamin.JobApplicationTracker.entity.UserStatus;
 import lombok.AllArgsConstructor;
 import org.jspecify.annotations.Nullable;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-
 import java.util.Collection;
 import java.util.List;
 
@@ -22,7 +22,7 @@ public class SecurityUser implements UserDetails {
 
     @Override
     public @Nullable String getPassword() {
-        return "";
+        return user.getPassword();
     }
 
     @Override
@@ -37,7 +37,7 @@ public class SecurityUser implements UserDetails {
 
     @Override
     public boolean isAccountNonLocked() {
-        return UserDetails.super.isAccountNonLocked();
+        return user.getUserStatus() != UserStatus.BANNED;
     }
 
     @Override
@@ -47,6 +47,6 @@ public class SecurityUser implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return UserDetails.super.isEnabled();
+        return user.getUserStatus() == UserStatus.APPROVED;
     }
 }
