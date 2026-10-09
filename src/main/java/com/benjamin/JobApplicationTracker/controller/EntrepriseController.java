@@ -1,6 +1,6 @@
 package com.benjamin.JobApplicationTracker.controller;
 
-import com.benjamin.JobApplicationTracker.dto.EntrepriseDto;
+import com.benjamin.JobApplicationTracker.dto.CompanyDto;
 import com.benjamin.JobApplicationTracker.dto.ResponseDto;
 import com.benjamin.JobApplicationTracker.service.IEntrepriseService;
 import lombok.AllArgsConstructor;
@@ -20,7 +20,7 @@ public class EntrepriseController {
     private IEntrepriseService entrepriseService;
 
     @PostMapping(path = "/create")
-    public ResponseEntity<ResponseDto> createEntreprise(@RequestBody EntrepriseDto entrepriseDto) {
+    public ResponseEntity<ResponseDto> createEntreprise(@RequestBody CompanyDto entrepriseDto) {
         entrepriseService.save(entrepriseDto);
         return ResponseEntity
                 .status(HttpStatus.CREATED)

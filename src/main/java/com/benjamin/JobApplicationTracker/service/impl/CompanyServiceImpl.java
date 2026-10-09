@@ -1,26 +1,26 @@
 package com.benjamin.JobApplicationTracker.service.impl;
 
-import com.benjamin.JobApplicationTracker.dto.EntrepriseDto;
-import com.benjamin.JobApplicationTracker.entity.Entreprise;
+import com.benjamin.JobApplicationTracker.dto.CompanyDto;
+import com.benjamin.JobApplicationTracker.entity.Company;
 import com.benjamin.JobApplicationTracker.exception.EntrepriseAlreadyExistsException;
-import com.benjamin.JobApplicationTracker.mapper.EntrepriseMapper;
-import com.benjamin.JobApplicationTracker.repository.EntrepriseRepository;
+import com.benjamin.JobApplicationTracker.mapper.CompanyMapper;
+import com.benjamin.JobApplicationTracker.repository.CompanyRepository;
 import com.benjamin.JobApplicationTracker.service.IEntrepriseService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
 @AllArgsConstructor
-public class EntrepriseServiceImpl implements IEntrepriseService {
+public class CompanyServiceImpl implements IEntrepriseService {
 
-    private EntrepriseRepository entrepriseRepository;
+    private CompanyRepository entrepriseRepository;
 
     @Override
-    public void save(EntrepriseDto entrepriseDto) {
+    public void save(CompanyDto entrepriseDto) {
         if(entrepriseRepository.findByName(entrepriseDto.getName()).isPresent()) {
             throw new EntrepriseAlreadyExistsException(entrepriseDto.getName());
         }
-        Entreprise entreprise = EntrepriseMapper.toEntreprise(entrepriseDto, new Entreprise());
+        Company entreprise = CompanyMapper.toCompany(entrepriseDto, new Company());
         entrepriseRepository.save(entreprise);
     }
 }

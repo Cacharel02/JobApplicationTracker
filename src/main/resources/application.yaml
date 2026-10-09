@@ -1,3 +1,6 @@
+jwt:
+  secret: ${JWT_SECRET}
+  expiration: 86400000
 spring:
   application:
     name: JobApplicationTracker
@@ -15,3 +18,5 @@ spring:
   flyway:
     enabled: true
     locations: classpath:db/migration
+  config:
+    import: optional:file:.env[.properties]

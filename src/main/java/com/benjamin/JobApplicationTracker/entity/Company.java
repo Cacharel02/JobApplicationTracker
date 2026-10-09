@@ -4,10 +4,10 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Table(name = "entreprise")
+@Table(name = "company")
 @Getter @Setter
 @AllArgsConstructor @NoArgsConstructor
-public class Entreprise {
+public class Company extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
