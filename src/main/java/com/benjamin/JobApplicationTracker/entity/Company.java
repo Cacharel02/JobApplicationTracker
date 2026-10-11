@@ -18,4 +18,8 @@ public class Company extends BaseEntity {
 
     @Column(name = "website")
     private String website;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 }
