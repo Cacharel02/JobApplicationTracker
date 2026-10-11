@@ -2,7 +2,7 @@ package com.benjamin.JobApplicationTracker.service;
 
 import com.benjamin.JobApplicationTracker.dto.CompanyDto;
 
-public interface IEntrepriseService {
+public interface ICompanyService {
 
-    void save(CompanyDto entrepriseDto);
+    void save(CompanyDto companyDto);
 }

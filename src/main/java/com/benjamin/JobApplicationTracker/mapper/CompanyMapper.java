@@ -14,11 +14,12 @@ public class CompanyMapper {
         return dto;
     }
     
-    public static Company toCompany(CompanyDto dto, Company entreprise) {
-        entreprise.setName(dto.getName());
-        entreprise.setWebsite(dto.getWebsite());
+    public static Company toCompany(CompanyDto dto) {
+        Company company = new Company();
+        company.setName(dto.getName());
+        company.setWebsite(dto.getWebsite());
         
-        return entreprise;
+        return company;
     }
 
 }
