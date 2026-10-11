@@ -7,11 +7,12 @@ import org.springframework.stereotype.Component;
 @Component
 public class CompanyMapper {
     
-    public static CompanyDto toCompanyDto(Company entreprise, CompanyDto dto) {
-        dto.setName(entreprise.getName());
-        dto.setWebsite(entreprise.getWebsite());
+    public static CompanyDto toCompanyDto(Company company) {
+        CompanyDto companyDto = new CompanyDto();
+        companyDto.setName(company.getName());
+        companyDto.setWebsite(company.getWebsite());
         
-        return dto;
+        return companyDto;
     }
     
     public static Company toCompany(CompanyDto dto) {
