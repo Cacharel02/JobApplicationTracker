@@ -1,9 +1,11 @@
 package com.benjamin.JobApplicationTracker.controller;
 
 import com.benjamin.JobApplicationTracker.dto.CompanyDto;
+import com.benjamin.JobApplicationTracker.dto.PositionRequest;
 import com.benjamin.JobApplicationTracker.dto.ResponseDto;
 import com.benjamin.JobApplicationTracker.security.SecurityUser;
 import com.benjamin.JobApplicationTracker.service.ICompanyService;
+import com.benjamin.JobApplicationTracker.service.IPositionService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -19,6 +21,7 @@ import java.util.List;
 public class CompanyController {
 
     private ICompanyService companyService;
+    private IPositionService positionService;
 
     @PostMapping
     public ResponseEntity<ResponseDto> createCompany(@RequestBody CompanyDto companyDto, @AuthenticationPrincipal SecurityUser securityUser) {
@@ -66,6 +69,14 @@ public class CompanyController {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(new ResponseDto("200", "Company deleted successfully"));
+    }
+
+    @PostMapping(path = "/{companyId}/positions")
+    public ResponseEntity<ResponseDto> createPosition(@PathVariable Long companyId, @RequestBody PositionRequest positionRequest, @AuthenticationPrincipal SecurityUser securityUser){
+        positionService.save(positionRequest, companyId, securityUser.getUser().getId());
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(new ResponseDto("201", "Position created successfully"));
     }
 
 

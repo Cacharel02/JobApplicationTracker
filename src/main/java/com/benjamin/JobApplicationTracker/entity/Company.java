@@ -3,6 +3,8 @@ package com.benjamin.JobApplicationTracker.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "company")
 @Getter @Setter
@@ -22,4 +24,7 @@ public class Company extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
+
+    @OneToMany(mappedBy = "company")
+    private List<Position> positions;
 }
