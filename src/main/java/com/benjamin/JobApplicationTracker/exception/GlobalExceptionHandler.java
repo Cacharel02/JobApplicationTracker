@@ -69,8 +69,19 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(errorResponseDto, HttpStatus.FORBIDDEN);
     }
 
-    @ExceptionHandler(CompanyNotFoundException.class)
-    public ResponseEntity<ErrorResponseDto> handleCompanyNotFoundException(CompanyNotFoundException e, WebRequest request) {
+    @ExceptionHandler(CompanyNameNotFoundException.class)
+    public ResponseEntity<ErrorResponseDto> handleCompanyNameNotFoundException(CompanyNameNotFoundException e, WebRequest request) {
+        ErrorResponseDto errorResponseDto = new ErrorResponseDto(
+                request.getDescription(false),
+                HttpStatus.NOT_FOUND,
+                e.getMessage(),
+                LocalDateTime.now()
+        );
+        return new ResponseEntity<>(errorResponseDto, errorResponseDto.getErrorCode());
+    }
+
+    @ExceptionHandler(CompanyIdNotFoundException.class)
+    public ResponseEntity<ErrorResponseDto> handleCompanyIdNotFoundException(CompanyIdNotFoundException e, WebRequest request) {
         ErrorResponseDto errorResponseDto = new ErrorResponseDto(
                 request.getDescription(false),
                 HttpStatus.NOT_FOUND,

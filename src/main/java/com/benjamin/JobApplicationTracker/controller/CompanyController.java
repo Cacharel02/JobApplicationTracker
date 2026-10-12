@@ -44,4 +44,29 @@ public class CompanyController {
                 .body(company);
     }
 
+    @GetMapping(path = "/{id}")
+    public ResponseEntity<CompanyDto> getById(@PathVariable Long id, @AuthenticationPrincipal SecurityUser securityUser) {
+        CompanyDto company = companyService.findById(id, securityUser.getUser());
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(company);
+    }
+
+    @PutMapping(path = "/{id}")
+    public ResponseEntity<CompanyDto> update(@PathVariable Long id, @RequestBody CompanyDto companyDto, @AuthenticationPrincipal SecurityUser securityUser) {
+        CompanyDto company = companyService.modify(id, securityUser.getUser(), companyDto);
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(company);
+    }
+
+    @DeleteMapping(path = "/{id}")
+    public ResponseEntity<ResponseDto> delete(@PathVariable Long id, @AuthenticationPrincipal SecurityUser securityUser) {
+        companyService.delete(id, securityUser.getUser());
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(new ResponseDto("200", "Company deleted successfully"));
+    }
+
+
 }

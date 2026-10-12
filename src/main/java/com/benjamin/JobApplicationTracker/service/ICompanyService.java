@@ -12,4 +12,10 @@ public interface ICompanyService {
     List<CompanyDto> findAll(User user);
 
     CompanyDto findByName(String name, User user);
+
+    CompanyDto findById(Long id, User user);
+
+    CompanyDto modify(Long id, User user, CompanyDto companyDto);
+
+    void delete(Long id, User user);
 }
