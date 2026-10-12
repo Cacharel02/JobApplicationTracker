@@ -29,11 +29,11 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<ErrorResponseDto> handleEntrepriseAlreadyExistsException(EntrepriseAlreadyExistsException e, WebRequest request) {
         ErrorResponseDto errorResponseDto = new ErrorResponseDto(
                 request.getDescription(false),
-                HttpStatus.BAD_REQUEST,
+                HttpStatus.CONFLICT,
                 e.getMessage(),
                 LocalDateTime.now()
         );
-        return new ResponseEntity<>(errorResponseDto, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(errorResponseDto, HttpStatus.CONFLICT);
     }
 
     @ExceptionHandler(UserAlreadyExistsException.class)
@@ -67,6 +67,28 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
                 LocalDateTime.now()
         );
         return new ResponseEntity<>(errorResponseDto, HttpStatus.FORBIDDEN);
+    }
+
+    @ExceptionHandler(CompanyNameNotFoundException.class)
+    public ResponseEntity<ErrorResponseDto> handleCompanyNameNotFoundException(CompanyNameNotFoundException e, WebRequest request) {
+        ErrorResponseDto errorResponseDto = new ErrorResponseDto(
+                request.getDescription(false),
+                HttpStatus.NOT_FOUND,
+                e.getMessage(),
+                LocalDateTime.now()
+        );
+        return new ResponseEntity<>(errorResponseDto, errorResponseDto.getErrorCode());
+    }
+
+    @ExceptionHandler(CompanyIdNotFoundException.class)
+    public ResponseEntity<ErrorResponseDto> handleCompanyIdNotFoundException(CompanyIdNotFoundException e, WebRequest request) {
+        ErrorResponseDto errorResponseDto = new ErrorResponseDto(
+                request.getDescription(false),
+                HttpStatus.NOT_FOUND,
+                e.getMessage(),
+                LocalDateTime.now()
+        );
+        return new ResponseEntity<>(errorResponseDto, errorResponseDto.getErrorCode());
     }
 
 }

@@ -3,6 +3,7 @@ package com.benjamin.JobApplicationTracker.security;
 import com.benjamin.JobApplicationTracker.entity.User;
 import com.benjamin.JobApplicationTracker.entity.UserStatus;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import org.jspecify.annotations.Nullable;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -10,11 +11,11 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.List;
 
+@Getter
 @AllArgsConstructor
 public class SecurityUser implements UserDetails {
 
     private final User user;
-
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

@@ -1,4 +1,4 @@
--- V2__create_user_table.sql
+-- V1__create_user_table.sql
 CREATE TABLE "users" (
     id BIGSERIAL PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
