@@ -91,4 +91,15 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(errorResponseDto, errorResponseDto.getErrorCode());
     }
 
+    @ExceptionHandler(PositionIdNotFoundException.class)
+    public ResponseEntity<ErrorResponseDto> handlePositionIdNotFoundException(PositionIdNotFoundException e, WebRequest request) {
+        ErrorResponseDto errorResponseDto = new ErrorResponseDto(
+                request.getDescription(false),
+                HttpStatus.NOT_FOUND,
+                e.getMessage(),
+                LocalDateTime.now()
+        );
+        return new ResponseEntity<>(errorResponseDto, errorResponseDto.getErrorCode());
+    }
+
 }
