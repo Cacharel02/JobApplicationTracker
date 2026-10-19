@@ -26,4 +26,5 @@ public interface PositionRepository extends JpaRepository<Position, Long> {
             """
     )
     Optional<Position> findByIdAndCompanyUserId(Long id, Long userId);
+
 }

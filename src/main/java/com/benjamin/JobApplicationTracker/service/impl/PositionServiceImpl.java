@@ -38,12 +38,22 @@ public class PositionServiceImpl implements IPositionService {
 
     @Override
     public PositionDto update(Long id, Long userId, PositionRequest positionRequest) {
-        Position position = positionRepository.findByIdAndCompanyUserId(id, userId)
-                .orElseThrow(() -> new PositionIdNotFoundException(id));
+        Position position = findPositionByIdAndCompanyUserId(id, userId);
         position.setTitle(positionRequest.getTitle());
         position.setDescription(positionRequest.getDescription());
         position.setLocation(positionRequest.getLocation());
         positionRepository.save(position);
         return PositionMapper.toPositionDto(position);
+    }
+
+    @Override
+    public void delete(Long id, Long userId) {
+        Position position = findPositionByIdAndCompanyUserId(id, userId);
+        positionRepository.delete(position);
+    }
+
+    private Position findPositionByIdAndCompanyUserId(Long id, Long userId) {
+        return positionRepository.findByIdAndCompanyUserId(id, userId)
+                .orElseThrow(() -> new PositionIdNotFoundException(id));
     }
 }

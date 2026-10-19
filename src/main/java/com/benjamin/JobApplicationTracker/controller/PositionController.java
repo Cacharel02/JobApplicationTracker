@@ -3,6 +3,7 @@ package com.benjamin.JobApplicationTracker.controller;
 
 import com.benjamin.JobApplicationTracker.dto.PositionDto;
 import com.benjamin.JobApplicationTracker.dto.PositionRequest;
+import com.benjamin.JobApplicationTracker.dto.ResponseDto;
 import com.benjamin.JobApplicationTracker.security.SecurityUser;
 import com.benjamin.JobApplicationTracker.service.IPositionService;
 import lombok.AllArgsConstructor;
@@ -30,10 +31,18 @@ public class PositionController {
     }
 
     @PutMapping(path = "/{id}")
-    public ResponseEntity<PositionDto> updatePosition(@PathVariable Long id, @AuthenticationPrincipal SecurityUser securityUser, @RequestBody PositionRequest positionRequest) {
+    public ResponseEntity<PositionDto> updatePosition(@PathVariable Long id, @RequestBody PositionRequest positionRequest, @AuthenticationPrincipal SecurityUser securityUser) {
         PositionDto updatedPosition = positionService.update(id, securityUser.getUser().getId(), positionRequest);
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(updatedPosition);
+    }
+
+    @DeleteMapping(path = "/{id}")
+    public ResponseEntity<ResponseDto> deletePosition(@PathVariable Long id, @AuthenticationPrincipal SecurityUser securityUser) {
+        positionService.delete(id, securityUser.getUser().getId());
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(new ResponseDto("200", "Position deleted successfully"));
     }
 }

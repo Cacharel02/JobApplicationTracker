@@ -13,4 +13,6 @@ public interface IPositionService {
     List<PositionDto> findAllByUserId(Long userId);
 
     PositionDto update(Long id, Long userId, PositionRequest positionRequest);
+
+    void delete(Long id, Long userId);
 }

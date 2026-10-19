@@ -66,8 +66,8 @@ public class CompanyServiceImpl implements ICompanyService {
     @Override
     @Transactional
     public void delete(Long id, Long userId) {
-        findCompanyByIdAndUserId(id, userId);
-        companyRepository.deleteByIdAndUserId(id, userId);
+        Company company = findCompanyByIdAndUserId(id, userId);
+        companyRepository.delete(company);
     }
 
     @Override
