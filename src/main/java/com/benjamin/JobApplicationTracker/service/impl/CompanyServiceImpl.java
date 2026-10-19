@@ -1,12 +1,14 @@
 package com.benjamin.JobApplicationTracker.service.impl;
 
 import com.benjamin.JobApplicationTracker.dto.CompanyDto;
+import com.benjamin.JobApplicationTracker.dto.PositionDto;
 import com.benjamin.JobApplicationTracker.entity.Company;
 import com.benjamin.JobApplicationTracker.entity.User;
 import com.benjamin.JobApplicationTracker.exception.CompanyIdNotFoundException;
 import com.benjamin.JobApplicationTracker.exception.EntrepriseAlreadyExistsException;
 import com.benjamin.JobApplicationTracker.exception.CompanyNameNotFoundException;
 import com.benjamin.JobApplicationTracker.mapper.CompanyMapper;
+import com.benjamin.JobApplicationTracker.mapper.PositionMapper;
 import com.benjamin.JobApplicationTracker.repository.CompanyRepository;
 import com.benjamin.JobApplicationTracker.service.ICompanyService;
 import jakarta.transaction.Transactional;
@@ -33,28 +35,26 @@ public class CompanyServiceImpl implements ICompanyService {
     }
 
     @Override
-    public List<CompanyDto> findAll(User user) {
-        return companyRepository.findByUserId(user.getId()).stream().map(CompanyMapper::toCompanyDto).toList();
+    public List<CompanyDto> findAll(Long userId) {
+        return companyRepository.findByUserId(userId).stream().map(CompanyMapper::toCompanyDto).toList();
     }
 
     @Override
-    public CompanyDto findByName(String name, User user){
-        return companyRepository.findByNameAndUserId(name, user.getId())
+    public CompanyDto findByName(String name, Long userId){
+        return companyRepository.findByNameAndUserId(name, userId)
                 .map(CompanyMapper::toCompanyDto).orElseThrow(() -> new CompanyNameNotFoundException(name));
     }
 
     @Override
-    public CompanyDto findById(Long id, User user) {
-        return companyRepository.findByIdAndUserId(id, user.getId())
-                .map(CompanyMapper::toCompanyDto).orElseThrow(() -> new CompanyIdNotFoundException(id));
+    public CompanyDto findById(Long id, Long userId) {
+        return CompanyMapper.toCompanyDto(findCompanyByIdAndUserId(id, userId));
     }
 
     @Override
     @Transactional
-    public CompanyDto modify(Long id, User user, CompanyDto companyDto) {
-        Company company = companyRepository.findByIdAndUserId(id, user.getId())
-                .orElseThrow(() -> new CompanyIdNotFoundException(id));
-        if(!company.getName().equals(companyDto.getName()) && companyRepository.existsByNameAndUserId(companyDto.getName(), user.getId())) {
+    public CompanyDto modify(Long id, Long userId, CompanyDto companyDto) {
+        Company company = findCompanyByIdAndUserId(id, userId);
+        if(!company.getName().equals(companyDto.getName()) && companyRepository.existsByNameAndUserId(companyDto.getName(), userId)) {
             throw new EntrepriseAlreadyExistsException(companyDto.getName());
         }
         company.setName(companyDto.getName());
@@ -65,9 +65,23 @@ public class CompanyServiceImpl implements ICompanyService {
 
     @Override
     @Transactional
-    public void delete(Long id, User user) {
-        companyRepository.findByIdAndUserId(id, user.getId())
-                .orElseThrow(() -> new CompanyIdNotFoundException(id));
-        companyRepository.deleteByIdAndUserId(id, user.getId());
+    public void delete(Long id, Long userId) {
+        findCompanyByIdAndUserId(id, userId);
+        companyRepository.deleteByIdAndUserId(id, userId);
     }
+
+    @Override
+    public List<PositionDto> findAllPositionsByCompany(Long companyId, Long userId) {
+        return findCompanyByIdAndUserId(companyId, userId).getPositions()
+                .stream()
+                .map(PositionMapper::toPositionDto)
+                .toList();
+    }
+
+    private Company findCompanyByIdAndUserId(Long companyId, Long userId) {
+        return companyRepository.findByIdAndUserId(companyId, userId)
+                .orElseThrow(() -> new CompanyIdNotFoundException(companyId));
+    }
+
+
 }

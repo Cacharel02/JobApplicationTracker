@@ -5,6 +5,7 @@ import com.benjamin.JobApplicationTracker.dto.PositionRequest;
 import com.benjamin.JobApplicationTracker.entity.Company;
 import com.benjamin.JobApplicationTracker.entity.Position;
 import com.benjamin.JobApplicationTracker.exception.CompanyIdNotFoundException;
+import com.benjamin.JobApplicationTracker.exception.PositionIdNotFoundException;
 import com.benjamin.JobApplicationTracker.mapper.PositionMapper;
 import com.benjamin.JobApplicationTracker.repository.CompanyRepository;
 import com.benjamin.JobApplicationTracker.repository.PositionRepository;
@@ -38,7 +39,7 @@ public class PositionServiceImpl implements IPositionService {
     @Override
     public PositionDto update(Long id, Long userId, PositionRequest positionRequest) {
         Position position = positionRepository.findByIdAndCompanyUserId(id, userId)
-                .orElseThrow(() -> new RuntimeException("Position not found"));
+                .orElseThrow(() -> new PositionIdNotFoundException(id));
         position.setTitle(positionRequest.getTitle());
         position.setDescription(positionRequest.getDescription());
         position.setLocation(positionRequest.getLocation());
