@@ -47,6 +47,17 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(errorResponseDto, HttpStatus.CONFLICT);
     }
 
+    @ExceptionHandler(ApplicationAlreadyExistsException.class)
+    public ResponseEntity<ErrorResponseDto> handleApplicationAlreadyExistsException(ApplicationAlreadyExistsException e, WebRequest request) {
+        ErrorResponseDto errorResponseDto = new ErrorResponseDto(
+                request.getDescription(false),
+                HttpStatus.CONFLICT,
+                e.getMessage(),
+                LocalDateTime.now()
+        );
+        return new ResponseEntity<>(errorResponseDto, HttpStatus.CONFLICT);
+    }
+
     @ExceptionHandler(BadCredentialsException.class)
     public ResponseEntity<ErrorResponseDto> handleBadCredentialsException(BadCredentialsException e, WebRequest request) {
         ErrorResponseDto errorResponseDto = new ErrorResponseDto(

@@ -1,10 +1,12 @@
 package com.benjamin.JobApplicationTracker.controller;
 
 
+import com.benjamin.JobApplicationTracker.dto.ApplicationRequest;
 import com.benjamin.JobApplicationTracker.dto.PositionDto;
 import com.benjamin.JobApplicationTracker.dto.PositionRequest;
 import com.benjamin.JobApplicationTracker.dto.ResponseDto;
 import com.benjamin.JobApplicationTracker.security.SecurityUser;
+import com.benjamin.JobApplicationTracker.service.IApplicationService;
 import com.benjamin.JobApplicationTracker.service.IPositionService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -21,6 +23,7 @@ import java.util.List;
 public class PositionController {
 
     private final IPositionService positionService;
+    private final IApplicationService applicationService;
 
     @GetMapping
     public ResponseEntity<List<PositionDto>> getAllPositions(@AuthenticationPrincipal SecurityUser securityUser) {
@@ -28,6 +31,14 @@ public class PositionController {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(positionDtos);
+    }
+
+    @PostMapping(path = "/{positionId}/applications")
+    public ResponseEntity<ResponseDto> createApplication(@PathVariable Long positionId, @RequestBody ApplicationRequest applicationRequest, @AuthenticationPrincipal SecurityUser securityUser) {
+        applicationService.save(applicationRequest, positionId, securityUser.getUser().getId());
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(new ResponseDto("201", "Application created successfully"));
     }
 
     @PutMapping(path = "/{id}")
