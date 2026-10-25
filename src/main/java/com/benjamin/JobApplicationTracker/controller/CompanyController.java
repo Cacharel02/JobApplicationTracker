@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(path = "/public/companies", produces = {MediaType.APPLICATION_JSON_VALUE})
+@RequestMapping(path = "/companies", produces = {MediaType.APPLICATION_JSON_VALUE})
 @AllArgsConstructor
 public class CompanyController {
 
@@ -40,8 +40,8 @@ public class CompanyController {
                 .body(companies);
     }
 
-    @GetMapping(path = "/{name}")
-    public ResponseEntity<CompanyDto> getByName(@PathVariable String name, @AuthenticationPrincipal SecurityUser securityUser) {
+    @GetMapping(params = "name")
+    public ResponseEntity<CompanyDto> getByName(@RequestParam String name, @AuthenticationPrincipal SecurityUser securityUser) {
         CompanyDto company = companyService.findByName(name, securityUser.getUser().getId());
         return ResponseEntity
                 .status(HttpStatus.OK)

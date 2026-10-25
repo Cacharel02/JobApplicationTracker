@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(path = "/public/positions", produces = {MediaType.APPLICATION_JSON_VALUE})
+@RequestMapping(path = "/positions", produces = {MediaType.APPLICATION_JSON_VALUE})
 @AllArgsConstructor
 public class PositionController {
 
