@@ -18,6 +18,8 @@ Stable rules and conventions are in `AGENTS.md`, not here.
 | US6 | View, update, delete my companies | High |
 | US7 | Create a position attached to a company | High |
 | US8 | View, update, delete my positions | High |
+| US11 | Create an application linked to an existing position | High |
+| US12 | Change the state of an application | High |
 
 ## In progress
 
@@ -33,18 +35,7 @@ _Maintained by the agent. Keep only the task(s) currently being worked on._
   and remove it from this section. Do not mark it done without the user's
   confirmation.
 - Note any blocker or open question here instead of guessing.
-  **Current task:** US11 - Create an application linked to an existing position
-  **Branch:** applications
-  **Checklist:**
-  - [x] Flyway migration (`V4__create_application_table.sql`)
-  - [x] Entity `Application` and enum `ApplicationState`
-  - [x] Repository
-  - [x] DTO `ApplicationRequest`
-  - [x] Service with ownership check through position -> company -> user
-  - [x] Controller and route `POST /positions/{positionId}/applications`
-  - [ ] Tests (not written; handled separately)
-  - [ ] Manual check with Postman
-  **Blockers / questions:** none
+  **Current task:** none
 
 <!-- Template to copy when starting a story:
 **Current task:** US11 - Create an application linked to an existing position
@@ -67,10 +58,7 @@ Work through priorities in order: High, then Medium, then Low.
 
 ### High
 
-| US | Story | Notes |
-|---|---|---|
-| US11 | Create an application linked to an existing position | Next task. Needs `Application` entity, Flyway migration, repository, service, controller. Ownership chain: Application -> Position -> Company -> User |
-| US12 | Change the state of an application | After US11. States: `TO_SEND`, `SENT`, `INTERVIEW`, `REJECTED`, `ACCEPTED`, `ARCHIVED`. Validate transitions in the service |
+_None remaining._
 
 ### Medium
 
@@ -104,7 +92,6 @@ Work through priorities in order: High, then Medium, then Low.
 
 ## Last session
 
-- Done: US11 implementation (migration, entity, repository, DTO, service,
-  route). Tests not written per project rule.
-- Stopped at: awaiting manual Postman check and user confirmation.
+- Done: US11 and US12 confirmed by the user after manual Postman tests.
+- Stopped at: US12 complete, ready to commit on branch `applications`.
 - Check first on resume: `git status`, `git diff`, database running, `.env` present

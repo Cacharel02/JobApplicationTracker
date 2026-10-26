@@ -58,6 +58,39 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(errorResponseDto, HttpStatus.CONFLICT);
     }
 
+    @ExceptionHandler(ApplicationStateRequiredException.class)
+    public ResponseEntity<ErrorResponseDto> handleApplicationStateRequiredException(ApplicationStateRequiredException e, WebRequest request) {
+        ErrorResponseDto errorResponseDto = new ErrorResponseDto(
+                request.getDescription(false),
+                HttpStatus.BAD_REQUEST,
+                e.getMessage(),
+                LocalDateTime.now()
+        );
+        return new ResponseEntity<>(errorResponseDto, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(InvalidApplicationStateTransitionException.class)
+    public ResponseEntity<ErrorResponseDto> handleInvalidApplicationStateTransitionException(InvalidApplicationStateTransitionException e, WebRequest request) {
+        ErrorResponseDto errorResponseDto = new ErrorResponseDto(
+                request.getDescription(false),
+                HttpStatus.CONFLICT,
+                e.getMessage(),
+                LocalDateTime.now()
+        );
+        return new ResponseEntity<>(errorResponseDto, HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(ApplicationIdNotFoundException.class)
+    public ResponseEntity<ErrorResponseDto> handleApplicationIdNotFoundException(ApplicationIdNotFoundException e, WebRequest request) {
+        ErrorResponseDto errorResponseDto = new ErrorResponseDto(
+                request.getDescription(false),
+                HttpStatus.NOT_FOUND,
+                e.getMessage(),
+                LocalDateTime.now()
+        );
+        return new ResponseEntity<>(errorResponseDto, errorResponseDto.getErrorCode());
+    }
+
     @ExceptionHandler(BadCredentialsException.class)
     public ResponseEntity<ErrorResponseDto> handleBadCredentialsException(BadCredentialsException e, WebRequest request) {
         ErrorResponseDto errorResponseDto = new ErrorResponseDto(
