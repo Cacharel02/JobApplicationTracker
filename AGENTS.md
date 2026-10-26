@@ -68,6 +68,7 @@ configuration; `test` is the full verification step.
   database deletion, `DROP`, `DELETE` without `WHERE`) unless explicitly asked.
 - Tests run against the local development database: do not write tests that
   delete or truncate existing data.
+- Do not create or modify test files for now; tests will be handled separately.
 - Work on the current branch only; keep changes small and focused so the diff
   is easy to review. List the files you changed at the end.
 - Reply to the user in French. Code, identifiers, comments, and commit
@@ -82,6 +83,8 @@ configuration; `test` is the full verification step.
   `GlobalExceptionHandler`: 404 not found (also for another user's resource,
   never 403), 409 duplicate, 401 bad credentials, 403 pending/banned account.
 - Never expose JPA entities in responses; return DTOs.
+- DTOs must never expose entity ids: no `id` field and no foreign-key id
+  such as `positionId`.
 - Never trust an id sent by the client for ownership (see per-user isolation).
 
 ## Domain
