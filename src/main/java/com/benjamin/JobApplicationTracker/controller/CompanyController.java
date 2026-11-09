@@ -1,11 +1,13 @@
 package com.benjamin.JobApplicationTracker.controller;
 
 import com.benjamin.JobApplicationTracker.dto.CompanyDto;
+import com.benjamin.JobApplicationTracker.dto.ContactDto;
 import com.benjamin.JobApplicationTracker.dto.PositionDto;
 import com.benjamin.JobApplicationTracker.dto.PositionRequest;
 import com.benjamin.JobApplicationTracker.dto.ResponseDto;
 import com.benjamin.JobApplicationTracker.security.SecurityUser;
 import com.benjamin.JobApplicationTracker.service.ICompanyService;
+import com.benjamin.JobApplicationTracker.service.IContactService;
 import com.benjamin.JobApplicationTracker.service.IPositionService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -23,6 +25,7 @@ public class CompanyController {
 
     private ICompanyService companyService;
     private IPositionService positionService;
+    private IContactService contactService;
 
     @PostMapping
     public ResponseEntity<ResponseDto> createCompany(@RequestBody CompanyDto companyDto, @AuthenticationPrincipal SecurityUser securityUser) {
@@ -86,6 +89,14 @@ public class CompanyController {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(positions);
+    }
+
+    @PostMapping(path = "/{companyId}/contacts")
+    public ResponseEntity<ResponseDto> createContact(@PathVariable Long companyId, @RequestBody ContactDto contactDto, @AuthenticationPrincipal SecurityUser securityUser){
+        contactService.save(contactDto, companyId, securityUser.getUser().getId());
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(new ResponseDto("201", "Contact created successfully"));
     }
 
 }

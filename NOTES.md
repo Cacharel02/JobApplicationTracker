@@ -1,6 +1,6 @@
 # Project notes
 
-_Last updated: 2026-10-26_
+_Last updated: 2026-11-09_
 
 Progress tracker for the Job Application Tracker API. Source of truth for the
 user stories (US) is the product backlog (priorities: High, Medium, Low).
@@ -18,6 +18,7 @@ Stable rules and conventions are in `AGENTS.md`, not here.
 | US6 | View, update, delete my companies | High |
 | US7 | Create a position attached to a company | High |
 | US8 | View, update, delete my positions | High |
+| US9 | Create a contact attached to a company | Medium |
 | US11 | Create an application linked to an existing position | High |
 | US12 | Change the state of an application | High |
 
@@ -35,7 +36,8 @@ _Maintained by the agent. Keep only the task(s) currently being worked on._
   and remove it from this section. Do not mark it done without the user's
   confirmation.
 - Note any blocker or open question here instead of guessing.
-  **Current task:** none
+
+**Current task:** none
 
 <!-- Template to copy when starting a story:
 **Current task:** US11 - Create an application linked to an existing position
@@ -64,7 +66,6 @@ _None remaining._
 
 | US | Story | Notes |
 |---|---|---|
-| US9 | Create a contact attached to a company | Do before US13 |
 | US10 | View, update, delete my contacts | Do before US13 |
 | US13 | Link one or more contacts to an application | Needs US9 and US11. Link table between application and contact |
 | US14 | Filter my applications by state | Use `@RequestParam` on `GET /applications` |
@@ -92,6 +93,6 @@ _None remaining._
 
 ## Last session
 
-- Done: US11 and US12 confirmed by the user after manual Postman tests.
-- Stopped at: US12 complete, ready to commit on branch `applications`.
+- Done: US9 confirmed by the user after manual Postman tests.
+- Stopped at: US9 complete, ready to commit and push on branch `contacts`.
 - Check first on resume: `git status`, `git diff`, database running, `.env` present
