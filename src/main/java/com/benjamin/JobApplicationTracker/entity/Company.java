@@ -29,5 +29,6 @@ public class Company extends BaseEntity {
     private List<Position> positions;
 
     @OneToMany(mappedBy = "company")
+    @OrderBy("name ASC")
     private List<Contact> contacts;
 }

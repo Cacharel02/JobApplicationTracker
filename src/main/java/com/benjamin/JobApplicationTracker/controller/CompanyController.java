@@ -1,7 +1,8 @@
 package com.benjamin.JobApplicationTracker.controller;
 
 import com.benjamin.JobApplicationTracker.dto.CompanyDto;
-import com.benjamin.JobApplicationTracker.dto.ContactDto;
+import com.benjamin.JobApplicationTracker.dto.ContactRequest;
+import com.benjamin.JobApplicationTracker.dto.ContactResponse;
 import com.benjamin.JobApplicationTracker.dto.PositionDto;
 import com.benjamin.JobApplicationTracker.dto.PositionRequest;
 import com.benjamin.JobApplicationTracker.dto.ResponseDto;
@@ -92,11 +93,19 @@ public class CompanyController {
     }
 
     @PostMapping(path = "/{companyId}/contacts")
-    public ResponseEntity<ResponseDto> createContact(@PathVariable Long companyId, @RequestBody ContactDto contactDto, @AuthenticationPrincipal SecurityUser securityUser){
-        contactService.save(contactDto, companyId, securityUser.getUser().getId());
+    public ResponseEntity<ResponseDto> createContact(@PathVariable Long companyId, @RequestBody ContactRequest contactRequest, @AuthenticationPrincipal SecurityUser securityUser){
+        contactService.save(contactRequest, companyId, securityUser.getUser().getId());
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(new ResponseDto("201", "Contact created successfully"));
+    }
+
+    @GetMapping(path = "/{companyId}/contacts")
+    public ResponseEntity<List<ContactResponse>> getContacts(@PathVariable Long companyId, @AuthenticationPrincipal SecurityUser securityUser){
+        List<ContactResponse> contacts = companyService.findAllContactsByCompany(companyId, securityUser.getUser().getId());
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(contacts);
     }
 
 }

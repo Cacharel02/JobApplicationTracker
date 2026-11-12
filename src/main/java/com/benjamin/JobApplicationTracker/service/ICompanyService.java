@@ -1,6 +1,7 @@
 package com.benjamin.JobApplicationTracker.service;
 
 import com.benjamin.JobApplicationTracker.dto.CompanyDto;
+import com.benjamin.JobApplicationTracker.dto.ContactResponse;
 import com.benjamin.JobApplicationTracker.dto.PositionDto;
 import com.benjamin.JobApplicationTracker.entity.User;
 
@@ -21,4 +22,6 @@ public interface ICompanyService {
     void delete(Long id, Long userId);
 
     List<PositionDto> findAllPositionsByCompany(Long companyId, Long userId);
+
+    List<ContactResponse> findAllContactsByCompany(Long companyId, Long userId);
 }

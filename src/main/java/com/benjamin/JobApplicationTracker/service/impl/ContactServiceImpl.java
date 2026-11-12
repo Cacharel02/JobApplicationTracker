@@ -1,6 +1,7 @@
 package com.benjamin.JobApplicationTracker.service.impl;
 
-import com.benjamin.JobApplicationTracker.dto.ContactDto;
+import com.benjamin.JobApplicationTracker.dto.ContactRequest;
+import com.benjamin.JobApplicationTracker.dto.ContactResponse;
 import com.benjamin.JobApplicationTracker.entity.Company;
 import com.benjamin.JobApplicationTracker.entity.Contact;
 import com.benjamin.JobApplicationTracker.exception.CompanyIdNotFoundException;
@@ -12,6 +13,8 @@ import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @AllArgsConstructor
 public class ContactServiceImpl implements IContactService {
@@ -21,10 +24,18 @@ public class ContactServiceImpl implements IContactService {
 
     @Override
     @Transactional
-    public void save(ContactDto contactDto, Long companyId, Long userId) {
+    public void save(ContactRequest contactRequest, Long companyId, Long userId) {
         Company company = companyRepository.findByIdAndUserId(companyId, userId)
                 .orElseThrow(() -> new CompanyIdNotFoundException(companyId));
-        Contact contact = ContactMapper.contactDtoToContact(contactDto, company);
+        Contact contact = ContactMapper.contactRequestToContact(contactRequest, company);
         contactRepository.save(contact);
     }
+
+    @Override
+    public List<ContactResponse> findAll(Long userId) {
+        return contactRepository.findAllByOwner(userId).stream()
+                .map(ContactMapper::toContactResponse)
+                .toList();
+    }
+
 }
