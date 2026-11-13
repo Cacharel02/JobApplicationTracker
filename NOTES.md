@@ -101,13 +101,13 @@ _None remaining._
 ## Last session
 
 - Done: US10 complete (view, update, delete contacts), confirmed by the user
-  after manual Postman tests. Branch `contacts` ready for a merge request.
+  after manual Postman tests. Branch `contacts` ready for a pull request.
 - Also fixed: `CompanyRepository.findByUserId` returned `Optional<Company>`, so
   `GET /companies` failed with more than one company (now `findAllByUserId`).
 - Naming: read DTOs are named `*Response` (`ContactResponse`,
   `PositionResponse`); `PositionResponse` and `ContactResponse` expose the
   resource `id`, and the nested company is a plain string.
-- Stopped at: ready to commit and open the merge request `contacts` -> `main`.
+- Stopped at: ready to commit and open the pull request `contacts` -> `main`.
 - Next: merge, then US14 (add `GET /applications`, then the state filter) or
   US13 (link contacts to an application).
 - Check first on resume: `git status`, `git diff`, database running, `.env` present
