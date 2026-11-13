@@ -35,7 +35,7 @@ Toutes les routes sauf `/auth/**` exigent l'en-tête `Authorization: Bearer <tok
 | Administration (`ROLE_ADMIN`) | `POST /admin/validate/{username}`, `POST /admin/ban/{username}` (`username` = email) |
 | Entreprises | `POST /companies`, `GET /companies`, `GET /companies?name={name}`, `GET /companies/{id}`, `PUT /companies/{id}`, `DELETE /companies/{id}` |
 | Postes | `POST /companies/{companyId}/positions`, `GET /companies/{companyId}/positions`, `GET /positions`, `PUT /positions/{id}`, `DELETE /positions/{id}` |
-| Contacts | `POST /companies/{companyId}/contacts`, `GET /companies/{companyId}/contacts`, `GET /contacts`, `PUT /contacts/{id}` |
+| Contacts | `POST /companies/{companyId}/contacts`, `GET /companies/{companyId}/contacts`, `GET /contacts`, `PUT /contacts/{id}`, `DELETE /contacts/{id}` |
 | Candidatures | `POST /positions/{positionId}/applications`, `PATCH /applications/{id}/state` |
 
 ## Prérequis
@@ -94,9 +94,8 @@ PostgreSQL doit être démarré : les tests utilisent la base de développement.
 - [x] Administration des comptes (validation, bannissement)
 - [x] Entreprises (CRUD)
 - [x] Postes (CRUD)
-- [x] Contacts : création, consultation et modification
+- [x] Contacts : création, consultation, modification et suppression
 - [x] Candidatures : création et changement d'état
-- [ ] Contacts : suppression
 - [ ] Liaison des contacts à une candidature (US13)
 - [ ] Filtre des candidatures par état (US14)
 - [ ] Documentation Swagger (US16)

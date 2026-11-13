@@ -52,6 +52,13 @@ public class ContactServiceImpl implements IContactService {
         return ContactMapper.toContactResponse(contact);
     }
 
+    @Override
+    @Transactional
+    public void delete(Long id, Long userId) {
+        Contact contact = findByIdAndOwner(id, userId);
+        contactRepository.delete(contact);
+    }
+
     private Contact findByIdAndOwner(Long contactId, Long userId) {
         return contactRepository.findByIdAndOwner(contactId, userId)
                 .orElseThrow(() -> new ContactIdNotFoundException(contactId));

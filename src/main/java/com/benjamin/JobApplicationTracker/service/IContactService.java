@@ -13,4 +13,6 @@ public interface IContactService {
 
     ContactResponse update(Long id, Long userId, ContactRequest contactRequest);
 
+    void delete(Long id, Long userId);
+
 }

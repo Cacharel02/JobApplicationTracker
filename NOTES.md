@@ -1,6 +1,6 @@
 # Project notes
 
-_Last updated: 2026-11-09_
+_Last updated: 2026-11-13_
 
 Progress tracker for the Job Application Tracker API. Source of truth for the
 user stories (US) is the product backlog (priorities: High, Medium, Low).
@@ -19,6 +19,7 @@ Stable rules and conventions are in `AGENTS.md`, not here.
 | US7 | Create a position attached to a company | High |
 | US8 | View, update, delete my positions | High |
 | US9 | Create a contact attached to a company | Medium |
+| US10 | View, update, delete my contacts | Medium |
 | US11 | Create an application linked to an existing position | High |
 | US12 | Change the state of an application | High |
 
@@ -37,23 +38,7 @@ _Maintained by the agent. Keep only the task(s) currently being worked on._
   confirmation.
 - Note any blocker or open question here instead of guessing.
 
-**Current task:** US10 - View, update, delete my contacts
-**Branch:** contacts
-**Checklist:**
-- [x] Rename `ContactDto` to `ContactRequest` (write DTO)
-- [x] `ContactResponse` (read DTO, id exposed, company as a string)
-- [x] Repository query filtered by owner (`findAllByOwner`)
-- [x] Service `findAll` (all contacts) and `findAllContactsByCompany` in `CompanyService`
-- [x] Routes `GET /contacts` and `GET /companies/{companyId}/contacts`
-- [x] `@OrderBy("name ASC")` on `Company.contacts`
-- [x] Fix `CompanyRepository.findByUserId` (Optional -> List)
-- [x] Compile (`mvnw compile`)
-- [x] Expose contact id in `ContactResponse`
-- [x] Manual check with Postman (2026-11-12): `GET /contacts`, `GET /companies/{id}/contacts`, 404 for another user's company, `POST` contact, `GET /companies` with 2 companies
-- [x] Update a contact (`PUT /contacts/{id}`)
-- [x] Manual check of the contact update with Postman (2026-11-13)
-- [ ] Delete a contact
-**Blockers / questions:** none
+**Current task:** none
 
 <!-- Template to copy when starting a story:
 **Current task:** US11 - Create an application linked to an existing position
@@ -82,7 +67,6 @@ _None remaining._
 
 | US | Story | Notes |
 |---|---|---|
-| US10 | View, update, delete my contacts | Do before US13 |
 | US13 | Link one or more contacts to an application | Needs US9 and US11. Link table between application and contact |
 | US14 | Filter my applications by state | Use `@RequestParam` on `GET /applications` |
 | US16 | Swagger documentation | springdoc dependency; routes under `/swagger-ui/**` and `/v3/api-docs/**` are already public in `SecurityConfig` |
@@ -116,15 +100,14 @@ _None remaining._
 
 ## Last session
 
-- Done: US10 view and update parts confirmed by the user after manual Postman
-  tests: `GET /contacts`, `GET /companies/{companyId}/contacts`,
-  `PUT /contacts/{id}` (200 on own contact, 404 on another user's or unknown
-  contact id). `ContactDto` renamed `ContactRequest`, new `ContactResponse`.
+- Done: US10 complete (view, update, delete contacts), confirmed by the user
+  after manual Postman tests. Branch `contacts` ready for a merge request.
 - Also fixed: `CompanyRepository.findByUserId` returned `Optional<Company>`, so
   `GET /companies` failed with more than one company (now `findAllByUserId`).
 - Naming: read DTOs are named `*Response` (`ContactResponse`,
   `PositionResponse`); `PositionResponse` and `ContactResponse` expose the
   resource `id`, and the nested company is a plain string.
-- Stopped at: branch `contacts` ready to commit and push; next step is deleting a
-  contact (reuse the `findByIdAndOwner` helper), then US10 can move to Done.
+- Stopped at: ready to commit and open the merge request `contacts` -> `main`.
+- Next: merge, then US14 (add `GET /applications`, then the state filter) or
+  US13 (link contacts to an application).
 - Check first on resume: `git status`, `git diff`, database running, `.env` present
