@@ -1,13 +1,15 @@
 package com.benjamin.JobApplicationTracker.service.impl;
 
 import com.benjamin.JobApplicationTracker.dto.CompanyDto;
-import com.benjamin.JobApplicationTracker.dto.PositionDto;
+import com.benjamin.JobApplicationTracker.dto.ContactResponse;
+import com.benjamin.JobApplicationTracker.dto.PositionResponse;
 import com.benjamin.JobApplicationTracker.entity.Company;
 import com.benjamin.JobApplicationTracker.entity.User;
 import com.benjamin.JobApplicationTracker.exception.CompanyIdNotFoundException;
 import com.benjamin.JobApplicationTracker.exception.EntrepriseAlreadyExistsException;
 import com.benjamin.JobApplicationTracker.exception.CompanyNameNotFoundException;
 import com.benjamin.JobApplicationTracker.mapper.CompanyMapper;
+import com.benjamin.JobApplicationTracker.mapper.ContactMapper;
 import com.benjamin.JobApplicationTracker.mapper.PositionMapper;
 import com.benjamin.JobApplicationTracker.repository.CompanyRepository;
 import com.benjamin.JobApplicationTracker.service.ICompanyService;
@@ -36,7 +38,7 @@ public class CompanyServiceImpl implements ICompanyService {
 
     @Override
     public List<CompanyDto> findAll(Long userId) {
-        return companyRepository.findByUserId(userId).stream().map(CompanyMapper::toCompanyDto).toList();
+        return companyRepository.findAllByUserId(userId).stream().map(CompanyMapper::toCompanyDto).toList();
     }
 
     @Override
@@ -71,10 +73,18 @@ public class CompanyServiceImpl implements ICompanyService {
     }
 
     @Override
-    public List<PositionDto> findAllPositionsByCompany(Long companyId, Long userId) {
+    public List<PositionResponse> findAllPositionsByCompany(Long companyId, Long userId) {
         return findCompanyByIdAndUserId(companyId, userId).getPositions()
                 .stream()
-                .map(PositionMapper::toPositionDto)
+                .map(PositionMapper::toPositionResponse)
+                .toList();
+    }
+
+    @Override
+    public List<ContactResponse> findAllContactsByCompany(Long companyId, Long userId) {
+        return findCompanyByIdAndUserId(companyId, userId).getContacts()
+                .stream()
+                .map(ContactMapper::toContactResponse)
                 .toList();
     }
 

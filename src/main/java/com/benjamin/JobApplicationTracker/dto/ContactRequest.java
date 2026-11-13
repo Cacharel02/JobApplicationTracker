@@ -7,10 +7,12 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class PositionDto {
+public class ContactRequest {
 
-    private String title;
-    private String description;
-    private String location;
-    private String company;
+    private String name;
+    private String role;
+    private String phoneNumber;
+    private String email;
+    private String city;
+
 }

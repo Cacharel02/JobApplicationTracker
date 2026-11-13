@@ -2,8 +2,8 @@ package com.benjamin.JobApplicationTracker.controller;
 
 
 import com.benjamin.JobApplicationTracker.dto.ApplicationRequest;
-import com.benjamin.JobApplicationTracker.dto.PositionDto;
 import com.benjamin.JobApplicationTracker.dto.PositionRequest;
+import com.benjamin.JobApplicationTracker.dto.PositionResponse;
 import com.benjamin.JobApplicationTracker.dto.ResponseDto;
 import com.benjamin.JobApplicationTracker.security.SecurityUser;
 import com.benjamin.JobApplicationTracker.service.IApplicationService;
@@ -26,11 +26,11 @@ public class PositionController {
     private final IApplicationService applicationService;
 
     @GetMapping
-    public ResponseEntity<List<PositionDto>> getAllPositions(@AuthenticationPrincipal SecurityUser securityUser) {
-        List<PositionDto> positionDtos = positionService.findAllByUserId(securityUser.getUser().getId());
+    public ResponseEntity<List<PositionResponse>> getAllPositions(@AuthenticationPrincipal SecurityUser securityUser) {
+        List<PositionResponse> positionResponses = positionService.findAllByUserId(securityUser.getUser().getId());
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(positionDtos);
+                .body(positionResponses);
     }
 
     @PostMapping(path = "/{positionId}/applications")
@@ -42,8 +42,8 @@ public class PositionController {
     }
 
     @PutMapping(path = "/{id}")
-    public ResponseEntity<PositionDto> updatePosition(@PathVariable Long id, @RequestBody PositionRequest positionRequest, @AuthenticationPrincipal SecurityUser securityUser) {
-        PositionDto updatedPosition = positionService.update(id, securityUser.getUser().getId(), positionRequest);
+    public ResponseEntity<PositionResponse> updatePosition(@PathVariable Long id, @RequestBody PositionRequest positionRequest, @AuthenticationPrincipal SecurityUser securityUser) {
+        PositionResponse updatedPosition = positionService.update(id, securityUser.getUser().getId(), positionRequest);
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(updatedPosition);

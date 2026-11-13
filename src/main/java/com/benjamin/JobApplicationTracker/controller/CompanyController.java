@@ -1,11 +1,14 @@
 package com.benjamin.JobApplicationTracker.controller;
 
 import com.benjamin.JobApplicationTracker.dto.CompanyDto;
-import com.benjamin.JobApplicationTracker.dto.PositionDto;
+import com.benjamin.JobApplicationTracker.dto.ContactRequest;
+import com.benjamin.JobApplicationTracker.dto.ContactResponse;
 import com.benjamin.JobApplicationTracker.dto.PositionRequest;
+import com.benjamin.JobApplicationTracker.dto.PositionResponse;
 import com.benjamin.JobApplicationTracker.dto.ResponseDto;
 import com.benjamin.JobApplicationTracker.security.SecurityUser;
 import com.benjamin.JobApplicationTracker.service.ICompanyService;
+import com.benjamin.JobApplicationTracker.service.IContactService;
 import com.benjamin.JobApplicationTracker.service.IPositionService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -23,6 +26,7 @@ public class CompanyController {
 
     private ICompanyService companyService;
     private IPositionService positionService;
+    private IContactService contactService;
 
     @PostMapping
     public ResponseEntity<ResponseDto> createCompany(@RequestBody CompanyDto companyDto, @AuthenticationPrincipal SecurityUser securityUser) {
@@ -81,11 +85,27 @@ public class CompanyController {
     }
 
     @GetMapping(path = "/{companyId}/positions")
-    public ResponseEntity<List<PositionDto>> getPositions(@PathVariable Long companyId, @AuthenticationPrincipal SecurityUser securityUser){
-        List<PositionDto> positions = companyService.findAllPositionsByCompany(companyId, securityUser.getUser().getId());
+    public ResponseEntity<List<PositionResponse>> getPositions(@PathVariable Long companyId, @AuthenticationPrincipal SecurityUser securityUser){
+        List<PositionResponse> positions = companyService.findAllPositionsByCompany(companyId, securityUser.getUser().getId());
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(positions);
+    }
+
+    @PostMapping(path = "/{companyId}/contacts")
+    public ResponseEntity<ResponseDto> createContact(@PathVariable Long companyId, @RequestBody ContactRequest contactRequest, @AuthenticationPrincipal SecurityUser securityUser){
+        contactService.save(contactRequest, companyId, securityUser.getUser().getId());
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(new ResponseDto("201", "Contact created successfully"));
+    }
+
+    @GetMapping(path = "/{companyId}/contacts")
+    public ResponseEntity<List<ContactResponse>> getContacts(@PathVariable Long companyId, @AuthenticationPrincipal SecurityUser securityUser){
+        List<ContactResponse> contacts = companyService.findAllContactsByCompany(companyId, securityUser.getUser().getId());
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(contacts);
     }
 
 }
