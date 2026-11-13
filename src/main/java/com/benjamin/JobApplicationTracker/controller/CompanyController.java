@@ -3,8 +3,8 @@ package com.benjamin.JobApplicationTracker.controller;
 import com.benjamin.JobApplicationTracker.dto.CompanyDto;
 import com.benjamin.JobApplicationTracker.dto.ContactRequest;
 import com.benjamin.JobApplicationTracker.dto.ContactResponse;
-import com.benjamin.JobApplicationTracker.dto.PositionDto;
 import com.benjamin.JobApplicationTracker.dto.PositionRequest;
+import com.benjamin.JobApplicationTracker.dto.PositionResponse;
 import com.benjamin.JobApplicationTracker.dto.ResponseDto;
 import com.benjamin.JobApplicationTracker.security.SecurityUser;
 import com.benjamin.JobApplicationTracker.service.ICompanyService;
@@ -85,8 +85,8 @@ public class CompanyController {
     }
 
     @GetMapping(path = "/{companyId}/positions")
-    public ResponseEntity<List<PositionDto>> getPositions(@PathVariable Long companyId, @AuthenticationPrincipal SecurityUser securityUser){
-        List<PositionDto> positions = companyService.findAllPositionsByCompany(companyId, securityUser.getUser().getId());
+    public ResponseEntity<List<PositionResponse>> getPositions(@PathVariable Long companyId, @AuthenticationPrincipal SecurityUser securityUser){
+        List<PositionResponse> positions = companyService.findAllPositionsByCompany(companyId, securityUser.getUser().getId());
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(positions);

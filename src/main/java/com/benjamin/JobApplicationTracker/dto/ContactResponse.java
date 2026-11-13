@@ -9,11 +9,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ContactResponse {
 
+    private Long id;
     private String name;
     private String role;
     private String phoneNumber;
     private String email;
     private String city;
-    private CompanyDto company;
+    private String company;
 
 }

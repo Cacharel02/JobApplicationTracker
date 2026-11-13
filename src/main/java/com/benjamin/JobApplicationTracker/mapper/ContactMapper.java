@@ -20,12 +20,13 @@ public class ContactMapper {
 
     public static ContactResponse toContactResponse(Contact contact) {
         ContactResponse contactResponse = new ContactResponse();
+        contactResponse.setId(contact.getId());
         contactResponse.setName(contact.getName());
         contactResponse.setRole(contact.getRole());
         contactResponse.setPhoneNumber(contact.getPhoneNumber());
         contactResponse.setEmail(contact.getEmail());
         contactResponse.setCity(contact.getCity());
-        contactResponse.setCompany(CompanyMapper.toCompanyDto(contact.getCompany()));
+        contactResponse.setCompany(contact.getCompany().getName());
         return contactResponse;
     }
 

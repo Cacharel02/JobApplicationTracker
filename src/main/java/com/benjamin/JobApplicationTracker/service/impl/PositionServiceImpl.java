@@ -1,7 +1,7 @@
 package com.benjamin.JobApplicationTracker.service.impl;
 
-import com.benjamin.JobApplicationTracker.dto.PositionDto;
 import com.benjamin.JobApplicationTracker.dto.PositionRequest;
+import com.benjamin.JobApplicationTracker.dto.PositionResponse;
 import com.benjamin.JobApplicationTracker.entity.Company;
 import com.benjamin.JobApplicationTracker.entity.Position;
 import com.benjamin.JobApplicationTracker.exception.CompanyIdNotFoundException;
@@ -31,19 +31,19 @@ public class PositionServiceImpl implements IPositionService {
     }
 
     @Override
-    public List<PositionDto> findAllByUserId(Long userId) {
+    public List<PositionResponse> findAllByUserId(Long userId) {
         List<Position> positions = positionRepository.findAllByOwner(userId);
-        return positions.stream().map(PositionMapper::toPositionDto).toList();
+        return positions.stream().map(PositionMapper::toPositionResponse).toList();
     }
 
     @Override
-    public PositionDto update(Long id, Long userId, PositionRequest positionRequest) {
+    public PositionResponse update(Long id, Long userId, PositionRequest positionRequest) {
         Position position = findPositionByIdAndCompanyUserId(id, userId);
         position.setTitle(positionRequest.getTitle());
         position.setDescription(positionRequest.getDescription());
         position.setLocation(positionRequest.getLocation());
         positionRepository.save(position);
-        return PositionMapper.toPositionDto(position);
+        return PositionMapper.toPositionResponse(position);
     }
 
     @Override

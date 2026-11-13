@@ -2,7 +2,7 @@ package com.benjamin.JobApplicationTracker.service.impl;
 
 import com.benjamin.JobApplicationTracker.dto.CompanyDto;
 import com.benjamin.JobApplicationTracker.dto.ContactResponse;
-import com.benjamin.JobApplicationTracker.dto.PositionDto;
+import com.benjamin.JobApplicationTracker.dto.PositionResponse;
 import com.benjamin.JobApplicationTracker.entity.Company;
 import com.benjamin.JobApplicationTracker.entity.User;
 import com.benjamin.JobApplicationTracker.exception.CompanyIdNotFoundException;
@@ -73,10 +73,10 @@ public class CompanyServiceImpl implements ICompanyService {
     }
 
     @Override
-    public List<PositionDto> findAllPositionsByCompany(Long companyId, Long userId) {
+    public List<PositionResponse> findAllPositionsByCompany(Long companyId, Long userId) {
         return findCompanyByIdAndUserId(companyId, userId).getPositions()
                 .stream()
-                .map(PositionMapper::toPositionDto)
+                .map(PositionMapper::toPositionResponse)
                 .toList();
     }
 

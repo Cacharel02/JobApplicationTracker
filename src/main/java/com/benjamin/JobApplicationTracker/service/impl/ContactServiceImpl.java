@@ -5,6 +5,7 @@ import com.benjamin.JobApplicationTracker.dto.ContactResponse;
 import com.benjamin.JobApplicationTracker.entity.Company;
 import com.benjamin.JobApplicationTracker.entity.Contact;
 import com.benjamin.JobApplicationTracker.exception.CompanyIdNotFoundException;
+import com.benjamin.JobApplicationTracker.exception.ContactIdNotFoundException;
 import com.benjamin.JobApplicationTracker.mapper.ContactMapper;
 import com.benjamin.JobApplicationTracker.repository.CompanyRepository;
 import com.benjamin.JobApplicationTracker.repository.ContactRepository;
@@ -36,6 +37,24 @@ public class ContactServiceImpl implements IContactService {
         return contactRepository.findAllByOwner(userId).stream()
                 .map(ContactMapper::toContactResponse)
                 .toList();
+    }
+
+    @Override
+    @Transactional
+    public ContactResponse update(Long id, Long userId, ContactRequest contactRequest) {
+        Contact contact = findByIdAndOwner(id, userId);
+        contact.setName(contactRequest.getName());
+        contact.setRole(contactRequest.getRole());
+        contact.setPhoneNumber(contactRequest.getPhoneNumber());
+        contact.setEmail(contactRequest.getEmail());
+        contact.setCity(contactRequest.getCity());
+        contactRepository.save(contact);
+        return ContactMapper.toContactResponse(contact);
+    }
+
+    private Contact findByIdAndOwner(Long contactId, Long userId) {
+        return contactRepository.findByIdAndOwner(contactId, userId)
+                .orElseThrow(() -> new ContactIdNotFoundException(contactId));
     }
 
 }

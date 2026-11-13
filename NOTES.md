@@ -41,17 +41,19 @@ _Maintained by the agent. Keep only the task(s) currently being worked on._
 **Branch:** contacts
 **Checklist:**
 - [x] Rename `ContactDto` to `ContactRequest` (write DTO)
-- [x] `ContactResponse` (read DTO, embeds `CompanyDto`)
+- [x] `ContactResponse` (read DTO, id exposed, company as a string)
 - [x] Repository query filtered by owner (`findAllByOwner`)
 - [x] Service `findAll` (all contacts) and `findAllContactsByCompany` in `CompanyService`
 - [x] Routes `GET /contacts` and `GET /companies/{companyId}/contacts`
 - [x] `@OrderBy("name ASC")` on `Company.contacts`
 - [x] Fix `CompanyRepository.findByUserId` (Optional -> List)
 - [x] Compile (`mvnw compile`)
+- [x] Expose contact id in `ContactResponse`
 - [x] Manual check with Postman (2026-11-12): `GET /contacts`, `GET /companies/{id}/contacts`, 404 for another user's company, `POST` contact, `GET /companies` with 2 companies
-- [ ] Update a contact
+- [x] Update a contact (`PUT /contacts/{id}`)
+- [x] Manual check of the contact update with Postman (2026-11-13)
 - [ ] Delete a contact
-**Blockers / questions:** how to identify a contact for update/delete without exposing its id in `ContactResponse`
+**Blockers / questions:** none
 
 <!-- Template to copy when starting a story:
 **Current task:** US11 - Create an application linked to an existing position
@@ -98,6 +100,13 @@ _None remaining._
 - Positions inherit ownership through their company.
 - Every query is filtered by the authenticated user; another user's resource
   returns 404.
+- Read DTOs expose the id of the resource they represent so the client can target
+  update/delete routes; owner and foreign-key ids are never exposed nor accepted
+  from request data.
+- The nested company in read DTOs is a plain string (company name), not a
+  `CompanyDto`.
+- `PUT /contacts/{id}` replaces all mutable contact fields; the company of a
+  contact cannot be changed through this route.
 
 ## Known issues
 
@@ -107,11 +116,15 @@ _None remaining._
 
 ## Last session
 
-- Done: US10 (view part) confirmed by the user after manual Postman tests:
-  `GET /contacts`, `GET /companies/{companyId}/contacts`, `ContactDto` renamed
-  `ContactRequest`, new `ContactResponse` embedding `CompanyDto`.
+- Done: US10 view and update parts confirmed by the user after manual Postman
+  tests: `GET /contacts`, `GET /companies/{companyId}/contacts`,
+  `PUT /contacts/{id}` (200 on own contact, 404 on another user's or unknown
+  contact id). `ContactDto` renamed `ContactRequest`, new `ContactResponse`.
 - Also fixed: `CompanyRepository.findByUserId` returned `Optional<Company>`, so
   `GET /companies` failed with more than one company (now `findAllByUserId`).
-- Stopped at: branch `contacts` ready to commit and push; next step is updating a
-  contact (then deleting one).
+- Naming: read DTOs are named `*Response` (`ContactResponse`,
+  `PositionResponse`); `PositionResponse` and `ContactResponse` expose the
+  resource `id`, and the nested company is a plain string.
+- Stopped at: branch `contacts` ready to commit and push; next step is deleting a
+  contact (reuse the `findByIdAndOwner` helper), then US10 can move to Done.
 - Check first on resume: `git status`, `git diff`, database running, `.env` present

@@ -11,4 +11,6 @@ public interface IContactService {
 
     List<ContactResponse> findAll(Long userId);
 
+    ContactResponse update(Long id, Long userId, ContactRequest contactRequest);
+
 }

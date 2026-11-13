@@ -1,7 +1,7 @@
 package com.benjamin.JobApplicationTracker.mapper;
 
-import com.benjamin.JobApplicationTracker.dto.PositionDto;
 import com.benjamin.JobApplicationTracker.dto.PositionRequest;
+import com.benjamin.JobApplicationTracker.dto.PositionResponse;
 import com.benjamin.JobApplicationTracker.entity.Company;
 import com.benjamin.JobApplicationTracker.entity.Position;
 import org.springframework.stereotype.Component;
@@ -9,13 +9,14 @@ import org.springframework.stereotype.Component;
 @Component
 public class PositionMapper {
 
-    public static PositionDto toPositionDto(Position position){
-            PositionDto positionDto = new PositionDto();
-            positionDto.setTitle(position.getTitle());
-            positionDto.setDescription(position.getDescription());
-            positionDto.setLocation(position.getLocation());
-            positionDto.setCompany(position.getCompany().getName());
-            return positionDto;
+    public static PositionResponse toPositionResponse(Position position){
+            PositionResponse positionResponse = new PositionResponse();
+            positionResponse.setId(position.getId());
+            positionResponse.setTitle(position.getTitle());
+            positionResponse.setDescription(position.getDescription());
+            positionResponse.setLocation(position.getLocation());
+            positionResponse.setCompany(position.getCompany().getName());
+            return positionResponse;
     }
 
     public static Position positionRequestToPosition(PositionRequest positionRequest, Company company){

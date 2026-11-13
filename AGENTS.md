@@ -83,8 +83,9 @@ configuration; `test` is the full verification step.
   `GlobalExceptionHandler`: 404 not found (also for another user's resource,
   never 403), 409 duplicate, 401 bad credentials, 403 pending/banned account.
 - Never expose JPA entities in responses; return DTOs.
-- DTOs must never expose entity ids: no `id` field and no foreign-key id
-  such as `positionId`.
+- Response DTOs may expose the id of the resource they represent (clients need
+  it for update/delete routes); they must never expose foreign-key or owner ids
+  such as `userId` or `positionId`. Request DTOs must not carry any id.
 - Never trust an id sent by the client for ownership (see per-user isolation).
 
 ## Domain
